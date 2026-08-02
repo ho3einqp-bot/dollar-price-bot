@@ -2,12 +2,23 @@ import os
 import asyncio
 from datetime import datetime
 from telegram import Bot
+from telegram.request import HTTPXRequest
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHANNEL = "@dollarpriced"
 
 async def send_message():
-    bot = Bot(token=TOKEN)
+    request = HTTPXRequest(
+        connect_timeout=30,
+        read_timeout=30,
+        write_timeout=30,
+        pool_timeout=30
+    )
+
+    bot = Bot(
+        token=TOKEN,
+        request=request
+    )
 
     text = f"""
 💵 دلار آزاد: 95,000 تومان
@@ -25,5 +36,6 @@ async def send_message():
     )
 
     print("Message sent successfully!")
+
 
 asyncio.run(send_message())
