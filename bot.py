@@ -1,37 +1,29 @@
-
 import os
-import requests
+import asyncio
 from datetime import datetime
 from telegram import Bot
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHANNEL = "@dollarpriced"
 
-def get_prices():
-    # فعلاً تستی؛ بعد از اتصال API واقعی جایگزین می‌کنیم
-    return {
-        "dollar": "95,000",
-        "gold": "7,200,000",
-        "coin": "82,000,000"
-    }
-
-def send_message():
-    prices = get_prices()
+async def send_message():
+    bot = Bot(token=TOKEN)
 
     text = f"""
-💵 دلار آزاد: {prices['dollar']} تومان
+💵 دلار آزاد: 95,000 تومان
 
-🟡 طلای ۱۸ عیار: {prices['gold']} تومان
+🟡 طلای ۱۸ عیار: 7,200,000 تومان
 
-🪙 سکه امامی: {prices['coin']} تومان
+🪙 سکه امامی: 82,000,000 تومان
 
 ⏰ بروزرسانی: {datetime.now().strftime('%H:%M')}
 """
 
-    bot = Bot(token=TOKEN)
-    bot.send_message(
+    await bot.send_message(
         chat_id=CHANNEL,
         text=text
     )
 
-send_message()
+    print("Message sent successfully!")
+
+asyncio.run(send_message())
